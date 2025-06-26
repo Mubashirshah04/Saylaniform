@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form - SMIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tab-active {
+            border-bottom: 2px solid #3b82f6;
+            color: #2563eb;
+        }
+        .tab-inactive {
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+        }
+        .tab-inactive:hover {
+            color: #374151;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            outline: none;
+        }
+        .form-input:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        .btn-secondary {
+            background-color: #059669;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #047857;
+        }
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .upload-area:hover {
+            border-color: #3b82f6;
+        }
+        .terms-list {
+            font-size: 0.875rem;
+            color: #374151;
+            line-height: 1.5;
+        }
+        .terms-list div {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .terms-list span {
+            font-weight: bold;
+            margin-right: 0.5rem;
+            min-width: 1.5rem;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 400px;
+            width: 90%;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-4">
+                    <img 
+                        src="https://forms.saylaniwelfare.com/static/media/logo.22bf709605809177256c.png" 
+                        alt="Saylani Welfare" 
+                        class="h-12 w-auto"
+                        onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+                    >
+                    <div class="hidden bg-green-600 text-white px-3 py-1 rounded text-sm font-bold">
+                        SAYLANI
+                    </div>
+                </div>
+                
+                <!-- Social Media Icons -->
+                <div class="flex items-center space-x-3">
+                    <a href="https://www.facebook.com/saylani.smit" target="_blank" rel="noopener noreferrer">
+                        <img 
+                            src="https://forms.saylaniwelfare.com/static/media/facebook.0d22b4d986cc357e30b7.png" 
+                            alt="Facebook" 
+                            class="h-6 w-6"
+                        >
+                    </a>
+                    <a href="https://www.instagram.com/saylanimassittraining" target="_blank" rel="noopener noreferrer">
+                        <img 
+                            src="https://forms.saylaniwelfare.com/static/media/instagram.1506b398fa46f19bb324.png" 
+                            alt="Instagram" 
+                            class="h-6 w-6"
+                        >
+                    </a>
+                    <a href="https://www.youtube.com/@SaylaniMassITTraining" target="_blank" rel="noopener noreferrer">
+                        <img 
+                            src="https://forms.saylaniwelfare.com/static/media/youtube.25bcb63515915fad0160.png" 
+                            alt="YouTube" 
+                            class="h-6 w-6"
+                        >
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Title Section -->
+    <div class="bg-white border-b">
+        <div class="container mx-auto px-4 py-6 text-center">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Registration Form - SMIT</h1>
+            <p class="text-blue-600 text-sm mb-4">
+                <a href="https://student.saylaniwelfare.com/" class="hover:underline">Student portal</a>
+            </p>
+            <p class="text-gray-600 text-sm">Services - Education - Registration</p>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-white border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-8">
+                <button onclick="showTab('registration')" id="tab-registration" class="px-4 py-3 text-sm font-medium border-b-2 transition-colors tab-active">
+                    Registration
+                </button>
+                <button onclick="showTab('download')" id="tab-download" class="px-4 py-3 text-sm font-medium border-b-2 transition-colors tab-inactive">
+                    Download ID Card
+                </button>
+                <button onclick="showTab('results')" id="tab-results" class="px-4 py-3 text-sm font-medium border-b-2 transition-colors tab-inactive">
+                    Results
+                </button>
+                <button onclick="showTab('admin')" id="tab-admin" class="px-4 py-3 text-sm font-medium border-b-2 transition-colors tab-inactive">
+                    Admin Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            
+            <!-- Registration Form -->
+            <div id="content-registration" class="bg-white rounded-lg shadow-sm border p-8">
+                <form id="registrationForm" class="space-y-6">
+                    <!-- Country Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select country</label>
+                        <select name="country" class="form-input" required>
+                            <option value="">Select country</option>
+                            <option value="pakistan">Pakistan</option>
+                            <option value="india">Turkey</option>
+                        </select>
+                    </div>
+
+                    <!-- City Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select city</label>
+                        <select name="city" class="form-input" required>
+                            <option value="">Select city</option>
+                            <option value="karachi">Karachi</option>
+                            <option value="lahore">Lahore</option>
+                            <option value="islamabad">Islamabad</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="peshawar">Peshawar</option>
+                            <option value="quetta">Quetta</option>
+                            <option value="multan">Multan</option>
+                            <option value="faisalabad">Faisalabad</option>
+                        </select>
+                    </div>
+
+                    <!-- Course Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select course or event</label>
+                        <select name="course" class="form-input" required>
+                            <option value="">Select course or event</option>
+                            <option value="web-mobile">Web and Mobile App Development</option>
+                            <option value="ai-chatbot">AI ChatBot</option>
+                            <option value="graphic-design">Graphic Design</option>
+                            <option value="digital-marketing">Digital Marketing</option>
+                            <option value="flutter">Flutter Development</option>
+                            <option value="python">Python Programming</option>
+                            <option value="data-science">Data Science</option>
+                        </select>
+                    </div>
+
+                    <!-- Computer Proficiency -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select your computer proficiency</label>
+                        <select name="computerProficiency" class="form-input" required>
+                            <option value="">Select your computer proficiency</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full name</label>
+                        <input type="text" name="fullName" class="form-input" required>
+                    </div>
+
+                    <!-- Father Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Father name</label>
+                        <input type="text" name="fatherName" class="form-input" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" name="email" class="form-input" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <input type="tel" name="phone" class="form-input" required>
+                    </div>
+
+                    <!-- CNIC -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">CNIC</label>
+                        <input type="text" name="cnic" placeholder="12345-1234567-1" class="form-input" 
+                               pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" required>
+                    </div>
+
+                    <!-- Father's CNIC -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Father's CNIC (optional)</label>
+                        <input type="text" name="fatherCnic" placeholder="12345-1234567-1" class="form-input" 
+                               pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}">
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date of birth</label>
+                        <input type="date" name="dateOfBirth" class="form-input" required>
+                    </div>
+
+                    <!-- Gender -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select gender</label>
+                        <select name="gender" class="form-input" required>
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <!-- Address -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                        <textarea name="address" rows="3" class="form-input" required></textarea>
+                    </div>
+
+                    <!-- Last Qualification -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last qualification</label>
+                        <select name="lastQualification" class="form-input" required>
+                            <option value="">Last qualification</option>
+                            <option value="matric">Matric</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="bachelors">Bachelors</option>
+                            <option value="masters">Masters</option>
+                            <option value="phd">PHD</option>
+                            <option value="diploma">Diploma</option>
+                        </select>
+                    </div>
+
+                    <!-- Laptop Question -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Do you have a Laptop?</label>
+                        <select name="hasLaptop" class="form-input" required>
+                            <option value="">Do you have a Laptop?</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Picture Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Picture</label>
+                        <div class="upload-area">
+                            <div class="flex flex-col items-center">
+                                <svg class="h-8 w-8 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="text-gray-600 mb-2">
+                                    <label for="picture" class="cursor-pointer text-blue-600 font-medium hover:text-blue-700">
+                                        + Upload
+                                    </label>
+                                </p>
+                                <input type="file" id="picture" name="picture" accept="image/jpeg,image/jpg,image/png" class="hidden">
+                                <div class="text-xs text-gray-500 space-y-1 text-center">
+                                    <p>• With white or blue background</p>
+                                    <p>• File size must be less than 1MB</p>
+                                    <p>• File type: jpg, jpeg, png</p>
+                                    <p>• Upload your recent passport size picture</p>
+                                    <p>• Your Face should be clearly visible without any Glasses</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="selectedFile" class="mt-2 text-sm text-green-600 hidden"></div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="terms-list">
+                        <div>
+                            <span>1.</span>
+                            <p>I hereby, solemnly declare that the data and facts mentioned herein are true and correct to the best of my knowledge. Further, I will abide by all the established and future regulations and policies of SWIT</p>
+                        </div>
+                        <div>
+                            <span>2.</span>
+                            <p>I hereby accept the responsibilities of good conduct and guarantee that I will not be involved in any other activity, political or ethical, but learning during my stay in the program.</p>
+                        </div>
+                        <div>
+                            <span>3.</span>
+                            <p>Defiance will render my admission canceled at any point in time.</p>
+                        </div>
+                        <div>
+                            <span>4.</span>
+                            <p>Upon completion, of the course, I will complete the required project by SWIT.</p>
+                        </div>
+                        <div>
+                            <span>5.</span>
+                            <p>It's mandatory for female students to wear abaya/hijab in the class</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" id="termsAccepted" name="termsAccepted" class="mt-1" required>
+                        <label for="termsAccepted" class="text-sm">
+                            I accept all terms and conditions
+                        </label>
+                    </div>
+
+                    <!-- reCAPTCHA placeholder -->
+                    <div class="border border-gray-300 rounded p-4 bg-gray-50 text-center">
+                        <p class="text-sm text-gray-600">reCAPTCHA verification (demo mode)</p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary">
+                        SUBMIT
+                    </button>
+                </form>
+            </div>
+
+            <!-- Download ID Card -->
+            <div id="content-download" class="bg-white rounded-lg shadow-sm border p-8 hidden">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Download ID Card</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">CNIC Number</label>
+                        <input type="text" placeholder="Enter your CNIC number" class="form-input">
+                    </div>
+                    <button class="btn-primary" style="background-color: #2563eb;">
+                        Download ID Card
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="content-results" class="bg-white rounded-lg shadow-sm border p-8 hidden">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Check Results</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">CNIC Number</label>
+                        <input type="text" placeholder="Enter your CNIC number" class="form-input">
+                    </div>
+                    <button class="btn-secondary">
+                        Check Results
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Login -->
+            <div id="content-admin" class="bg-white rounded-lg shadow-sm border p-8 hidden">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Admin Login</h2>
+                <form id="adminForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" name="username" placeholder="Enter username" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" name="password" placeholder="Enter password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        LOGIN
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <div class="mb-4">
+                    <svg class="mx-auto h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Registration Successful!</h3>
+                <p class="text-gray-600 mb-4">Your registration has been submitted successfully. You will receive a confirmation email shortly.</p>
+                <button onclick="closeModal()" class="btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tab) {
+            // Hide all content
+            document.querySelectorAll('[id^="content-"]').forEach(el => el.classList.add('hidden'));
+            // Show selected content
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            
+            // Update tab styles
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.className = el.className.replace('tab-active', 'tab-inactive');
+            });
+            document.getElementById('tab-' + tab).className = 
+                document.getElementById('tab-' + tab).className.replace('tab-inactive', 'tab-active');
+        }
+
+        // File upload handling
+        document.getElementById('picture').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const selectedFileDiv = document.getElementById('selectedFile');
+            
+            if (file) {
+                const fileSizeKB = Math.round(file.size / 1024);
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload only JPG, JPEG, or PNG files.');
+                    e.target.value = '';
+                    selectedFileDiv.classList.add('hidden');
+                    return;
+                }
+                
+                if (file.size > 1024 * 1024) { // 1MB
+                    alert('File size must be less than 1MB.');
+                    e.target.value = '';
+                    selectedFileDiv.classList.add('hidden');
+                    return;
+                }
+                
+                selectedFileDiv.textContent = `Selected: ${file.name} (${fileSizeKB}KB)`;
+                selectedFileDiv.classList.remove('hidden');
+            } else {
+                selectedFileDiv.classList.add('hidden');
+            }
+        });
+
+        // CNIC formatting
+        function formatCNIC(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 5) {
+                value = value.substring(0, 5) + '-' + value.substring(5);
+            }
+            if (value.length >= 13) {
+                value = value.substring(0, 13) + '-' + value.substring(13, 14);
+            }
+            input.value = value;
+        }
+
+        // Add CNIC formatting to CNIC inputs
+        document.querySelectorAll('input[name="cnic"], input[name="fatherCnic"]').forEach(input => {
+            input.addEventListener('input', function() {
+                formatCNIC(this);
+            });
+        });
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const formData = new FormData(this);
+            const requiredFields = ['country', 'city', 'course', 'computerProficiency', 'fullName', 
+                                   'fatherName', 'email', 'phone', 'cnic', 'dateOfBirth', 'gender', 
+                                   'address', 'lastQualification', 'hasLaptop'];
+            
+            for (let field of requiredFields) {
+                if (!formData.get(field)) {
+                    alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
+                    return;
+                }
+            }
+            
+            if (!formData.get('termsAccepted')) {
+                alert('Please accept the terms and conditions.');
+                return;
+            }
+            
+            // Show success modal
+            document.getElementById('successModal').classList.add('show');
+            
+            // Reset form
+            this.reset();
+            document.getElementById('selectedFile').classList.add('hidden');
+        });
+
+        // Admin form submission
+        document.getElementById('adminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = this.username.value;
+            const password = this.password.value;
+            
+            if (username === 'admin' && password === 'admin123') {
+                alert('Login successful! (Demo mode)');
+                this.reset();
+            } else {
+                alert('Invalid credentials. Use username: admin, password: admin123');
+            }
+        });
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
