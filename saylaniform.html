@@ -577,14 +577,20 @@
         });
     </script>
 
-<iframe
-    allow="microphone;"
-    width="350"
-    height="430"
-    src="https://console.dialogflow.com/api-client/demo/embedded/ffaee4ba-81c1-4d51-aa1c-3430306be2ba">
-</iframe>
+<script type="text/javascript">
+    (function(d, m){
+        var kommunicateSettings = 
+            {"appId":"508595147bd8b92bf625dfa377d20598","popupWidget":true,"automaticChatOpenOnNavigation":true};
+        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+        window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+/* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+</script>
       
 </body>
 </html>
+
 
 
